@@ -1,0 +1,146 @@
+#include "errortests.h"
+
+int	main(void)
+{
+	int		fd;
+	char	*line;
+	char	**ret;
+	int		rlen;
+	char	fname4[] = "10-0.txt";
+	char	fname5[] = "testfile";
+	char	fname6[] = "84-0.txt";
+	char	fname7[] = "reallyempty";
+	int		n = 1;
+
+	line = NULL;
+	ret = &line;
+
+	printf("\nERROR MANAGEMENT\n\n");
+
+	printf("BUFF_SIZE: %d\n\n", BUFF_SIZE);
+
+	printf("\nArbitrary file descriptor (should return -1):\n");
+	printf("ret: %d\n", get_next_line(99, ret));
+	printf("ret: %d\n", get_next_line(42, ret));
+	printf("ret: %d\n", get_next_line(146325, ret));
+
+	printf("\nNegative file descriptor (should return -1):\n");
+	printf("ret: %d\n", get_next_line(-99, ret));
+	printf("ret: %d\n", get_next_line(-1, ret));
+	printf("ret: %d\n", get_next_line(-10000, ret));
+
+	printf("\n**line is NULL:\n");
+	printf("ret: %d\n", get_next_line(4, NULL));
+	printf("ret: %d\n", get_next_line(5, NULL));
+	printf("ret: %d\n", get_next_line(6, NULL));
+
+	fflush(stdout);
+
+	printf("\nCompletely empty file:\n");
+	n = 1;
+	printf("\n");
+	fd = open(fname7, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	ret = &line;
+	rlen = get_next_line(fd, ret);
+	printf("%s<- end of line\n", *ret);
+	if (rlen > 0)
+		free(*ret);
+	close (fd);
+
+	printf("\nSo far so good. Press any key to read the bible.\n");
+	getchar();
+	n = 1;
+	printf("\n");
+	fd = open(fname4, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	printf("Reading the bible:\n");
+	ret = &line;
+	while (1)
+	{
+		rlen = get_next_line(fd, ret);
+		if (rlen <= 0)
+			break;
+		printf("%s\n", *ret);
+		free(*ret);
+		n++;
+	}
+	close (fd);
+
+	printf("\nSo far so good. Press any key to test multiple empty lines.\n");
+	getchar();
+	n = 1;
+	printf("\n");
+	fd = open(fname5, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	printf("Multiple empty lines:\n");
+	ret = &line;
+	while (1)
+	{
+		rlen = get_next_line(fd, ret);
+		if (rlen <= 0)
+			break;
+		printf("%s\n", *ret);
+		free(*ret);
+		n++;
+	}
+	close (fd);
+
+	printf("\nSo far so good. Press any key to read the frankenstein.\n");
+	getchar();
+
+	n = 1;
+	printf("\n");
+	fd = open(fname6, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	printf("Reading the Frankenstein:\n");
+	ret = &line;
+	while (1)
+	{
+		rlen = get_next_line(fd, ret);
+		if (rlen <= 0)
+			break;
+		printf("%s\n", *ret);
+		free(*ret);
+		n++;
+	}
+	close (fd);
+
+	printf("\n*TORTURE TEST*\n\nReading the bible in infinite loop. Press any key to proceed.\n");
+	getchar();
+
+	n = 1;
+	printf("\n");
+	fd = open(fname4, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	ret = &line;
+	while (1)
+	{
+		rlen = get_next_line(fd, ret);
+		if (rlen < 0)
+			return (-1);
+		if (rlen == 0)
+		{
+			close(fd);
+			fd = open(fname4, O_RDONLY);
+			continue;
+		}
+		printf("%s\n", *ret);
+		// ft_putendl(*ret);
+		free(*ret);
+		// n++;
+		// if (!(n % 10000))
+			// printf("%d\n",n);
+	}
+	close (fd);
+
+	return (0);
+}
+
+
+/* vi: filetype=c */

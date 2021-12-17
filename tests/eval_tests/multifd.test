@@ -1,0 +1,3 @@
+gcc -Wall -Wextra -Werror -xc multi_fd.c.test ../get_next_line.c -I../libft/includes -I../ -L../libft -lft -o multi_fd
+./multi_fd
+rm multi_fd

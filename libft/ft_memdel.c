@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 14:28:18 by ccariou           #+#    #+#             */
-/*   Updated: 2021/11/23 20:26:46 by ccariou          ###   ########.fr       */
+/*   Updated: 2021/12/16 14:54:01 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_memdel(void **ap)
 {
-	if (ap != NULL)
+	if (*ap != NULL)
 	{
 		free(*ap);
 		*ap = NULL;

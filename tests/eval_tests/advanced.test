@@ -1,0 +1,5 @@
+gcc -Wall -Wextra -Werror -xc advanced_read_stdout.c.test ../get_next_line.c -I../libft/includes -I../ -L../libft -lft -o advanced_read_stdout
+./advanced_read_stdout
+gcc -Wall -Wextra -Werror -xc advanced_read_file.c.test ../get_next_line.c -I../libft/includes -I../ -L../libft -lft -o advanced_read_file
+./advanced_read_file
+rm advanced_read_stdout advanced_read_file

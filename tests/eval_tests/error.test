@@ -1,0 +1,3 @@
+gcc -Wall -Wextra -Werror -xc error_management.c.test ../get_next_line.c -I../libft/includes -I../ -L../libft -lft -o error_management
+./error_management
+rm error_management

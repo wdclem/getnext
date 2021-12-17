@@ -1,0 +1,81 @@
+
+#include "middletests.h"
+
+int	main(void)
+{
+	int		stdoutbackup;
+	int		pipefd[2];
+	int		rlen;
+	char	*line;
+	char	**ret;
+	int		n;
+
+	printf("\nMIDDLE TESTS - READ STDOUT\n\n");
+
+	printf("BUFF_SIZE: %d\n\n", BUFF_SIZE);
+	write(1, "One line with newline:\n", 23);
+
+	stdoutbackup = dup(fileno(stdout));
+	pipe((int *)pipefd);
+	dup2(pipefd[1], fileno(stdout));
+
+	write(pipefd[1], "0123456789ABCDEF\n", 17);
+
+	close(pipefd[1]);
+	dup2(stdoutbackup, fileno(stdout));
+	n = 1;
+	ret = &line;
+	while (1)
+	{
+		rlen = get_next_line(pipefd[0], ret);
+		if (rlen <= 0)
+			break;
+		printf("%s<- end of line %d\n", *ret, n);
+		free(*ret);
+		n++;
+	}
+	write(1, "\n", 1);
+	write(1, "Two lines with newlines:\n", 25);
+	stdoutbackup = dup(fileno(stdout));
+	pipe((int *)pipefd);
+	dup2(pipefd[1], fileno(stdout));
+
+	write(pipefd[1], "0123456789ABCDEF\n0123456789ABCDEF\n", 34);
+
+	close(pipefd[1]);
+	dup2(stdoutbackup, fileno(stdout));
+	n = 1;
+	ret = &line;
+	while (1)
+	{
+		rlen = get_next_line(pipefd[0], ret);
+		if (rlen <= 0)
+			break;
+		printf("%s<- end of line %d\n", *ret, n);
+		free(*ret);
+		n++;
+	}
+	write(1, "\n", 1);
+	write(1, "16 lines with newlines:\n", 24);
+	stdoutbackup = dup(fileno(stdout));
+	pipe((int *)pipefd);
+	dup2(pipefd[1], fileno(stdout));
+
+	write(pipefd[1], "0123456789ABCDEF\n0123456789ABCDEF\n0123456789ABCDEF\n0123456789ABCDEF\n0123456789ABCDEF\n0123456789ABCDEF\n0123456789ABCDEF\n0123456789ABCDEF\n0123456789ABCDEF\n0123456789ABCDEF\n0123456789ABCDEF\n0123456789ABCDEF\n0123456789ABCDEF\n0123456789ABCDEF\n0123456789ABCDEF\n0123456789ABCDEF\n", 272);
+
+	close(pipefd[1]);
+	dup2(stdoutbackup, fileno(stdout));
+	n = 1;
+	ret = &line;
+	while (1)
+	{
+		rlen = get_next_line(pipefd[0], ret);
+		if (rlen <= 0)
+			break;
+		printf("%s<- end of line %d\n", *ret, n);
+		free(*ret);
+		n++;
+	}
+	return (0);
+}
+/* vi: filetype=c */

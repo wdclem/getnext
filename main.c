@@ -5,43 +5,38 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/07 12:05:01 by ccariou           #+#    #+#             */
-/*   Updated: 2021/12/07 19:45:11 by ccariou          ###   ########.fr       */
+/*   Created: 2021/12/16 12:16:43 by ccariou           #+#    #+#             */
+/*   Updated: 2021/12/17 14:20:45 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+#include "get_next_line.h"
+#include <stdio.h>
 
-#define BUF_SIZE 10
-
-int	main(void)
+int	main()
 {
-	int	fd;
-	int ret;
-	char buf[BUF_SIZE + 1];
+	int		fd;
+	char	*line;
+	int		n = 1;
 
-	fd = open("tau", O_RDONLY);
-	/* fd = open("tau", O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR); */
-	if (fd == -1)
+	sleep (1);
+	line = NULL;
+	//fd = open("h.txt", O_RDONLY);
+	//get_next_line(fd, &line);
+	//printf("retget = %i\n", retget);
+	//while((get_next_line(fd, &line) > 0))
+	//	printf("%s\n", line);
+	//get_next_line(fd, &line);
+	//printf("%s\n", line);
+	fd = open("gnl7_3.txt", O_RDONLY);
+	if (fd < 0)
+		return (0);
+	while (get_next_line(fd, &line) > 0)
 	{
-		ft_putstr("open() error");
-		return (1);
+		printf("%s<- end of line %d\n", line, n);
+		free(line);
+		n++;
 	}
-	while (ret = read(fd, buf, BUF_SIZE))
-	{
-		buf[ret] = '\0';
-		ft_putnbr(ret);
-		ft_putstr(buf);
-	}
-	ft_putnbr(ret);
-	if (close(fd) == -1)
-	{
-		ft_putstr("close() error");
-		return (1);
-	}
-	return (0);
+	close (fd);
+	return(0);
 }

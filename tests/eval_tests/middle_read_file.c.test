@@ -1,0 +1,67 @@
+#include "middletests.h"
+
+int	main(void)
+{
+	int		fd;
+	char	*line;
+	char	**ret;
+	int		rlen;
+	char	fname[] = "16charsnl";
+	char	fname2[] = "16charsnlx2";
+	char	fname3[] = "16charsnlx16";
+	int		n = 1;
+
+	ret = &line;
+	printf("\nMIDDLE TESTS - READ FILE\n\n");
+
+	printf("BUFF_SIZE: %d\n\n", BUFF_SIZE);
+	fd = open(fname, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	printf("One line with newline:\n");
+	while (1)
+	{
+		rlen = get_next_line(fd, ret);
+		if (rlen <= 0)
+			break;
+		printf("%s<- end of line %d\n", *ret, n);
+		free(*ret);
+		n++;
+	}
+	close (fd);
+	// free(line);
+	printf("\n");
+	n = 1;
+	fd = open(fname2, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	printf("Two lines with newline:\n");
+	while (1)
+	{
+		rlen = get_next_line(fd, ret);
+		if (rlen <= 0)
+			break;
+		printf("%s<- end of line %d\n", *ret, n);
+		free(*ret);
+		n++;
+	}
+	close (fd);
+	n = 1;
+	printf("\n");
+	fd = open(fname3, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	printf("16 lines with newline:\n");
+	while (1)
+	{
+		rlen = get_next_line(fd, ret);
+		if (rlen <= 0)
+			break;
+		printf("%s<- end of line %d\n", *ret, n);
+		free(*ret);
+		n++;
+	}
+	close (fd);
+	return (0);
+}
+/* vi: filetype=c */

@@ -1,0 +1,5 @@
+gcc -Wall -Wextra -Werror -xc basic_read_stdout.c.test ../get_next_line.c -I../libft/includes -I../ -L../libft -lft -o basic_read_stdout
+./basic_read_stdout
+gcc -Wall -Wextra -Werror -xc basic_read_file.c.test ../get_next_line.c -I../libft/includes -I../ -L../libft -lft -o basic_read_file
+./basic_read_file
+rm basic_read_stdout basic_read_file

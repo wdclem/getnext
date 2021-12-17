@@ -1,0 +1,5 @@
+gcc -Wall -Wextra -Werror -xc middle_read_stdout.c.test ../get_next_line.c -I../libft/includes -I../ -L../libft -lft -o middle_read_stdout
+./middle_read_stdout
+gcc -Wall -Wextra -Werror -xc middle_read_file.c.test ../get_next_line.c -I../libft/includes -I../ -L../libft -lft -o middle_read_file
+./middle_read_file
+rm middle_read_stdout middle_read_file

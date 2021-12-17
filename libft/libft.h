@@ -6,7 +6,7 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 13:15:04 by ccariou           #+#    #+#             */
-/*   Updated: 2021/12/07 13:51:43 by ccariou          ###   ########.fr       */
+/*   Updated: 2021/12/17 14:30:27 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	*ft_itoa(int n);
  * Extra "fait maison" Functions
 */
 
-void	ft_freearray(char **array);
+void	ft_freearray(char **array, int i);
 char	**ft_maketab(int len);
 char	*ft_makearray(int len);
 

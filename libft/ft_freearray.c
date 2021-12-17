@@ -14,17 +14,10 @@
 /* Function to free array/2d array
  */
 
-void	ft_freearray(char **array)
+void	ft_freearray(char **array, int i)
 {
-	int	i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		array[i] = NULL;
-		i++;
-	}
-	free(array);
-	array = NULL;
+    while (i--)
+        free(words[i]);
+    ft_strdel(words);
+    return (NULL);
 }

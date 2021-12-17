@@ -1,0 +1,54 @@
+#include "multifdtests.h"
+
+int	main(void)
+{
+	int		fd1;
+	int		fd2;
+	int		fd3;
+	char	*line;
+	char	**ret;
+	int		rlen;
+	char	fname[] = "fd1";
+	char	fname2[] = "fd2";
+	char	fname3[] = "fd3";
+	int		n = 1;
+
+	ret = &line;
+	printf("\nMULTI FD BONUS TESTS\n\n");
+
+	printf("BUFF_SIZE: %d\n\n", BUFF_SIZE);
+	fd1 = open(fname, O_RDONLY);
+	fd2 = open(fname2, O_RDONLY);
+	fd3 = open(fname3, O_RDONLY);
+	if (fd1 < 0)
+		return (0);
+	if (fd2 < 0)
+		return (0);
+	if (fd3 < 0)
+		return (0);
+	printf("Reading 3 different fd's with same content one after another:\n");
+	while (1)
+	{
+		rlen = get_next_line(fd1, ret);
+		if (rlen <= 0)
+			break;
+		printf("%s<- end of line %d\n", *ret, n);
+		free(*ret);
+		rlen = get_next_line(fd2, ret);
+		if (rlen <= 0)
+			break;
+		printf("%s<- end of line %d\n", *ret, n);
+		free(*ret);
+		rlen = get_next_line(fd3, ret);
+		if (rlen <= 0)
+			break;
+		printf("%s<- end of line %d\n", *ret, n);
+		free(*ret);
+		n++;
+	}
+	close (fd1);
+	close (fd2);
+	close (fd3);
+
+	return (0);
+}
