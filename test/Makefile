@@ -1,4 +1,4 @@
-EVAL = /Users/clem/Desktop/Hive/get/toretry/
+EVAL = /Users/clem/Desktop/Hive/getn/toretry/
 
 all:
 	make -C $(EVAL)./libft/ fclean && make -C $(EVAL)./libft/

@@ -6,11 +6,11 @@
 /*   By: ccariou <ccariou@hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 12:16:43 by ccariou           #+#    #+#             */
-/*   Updated: 2022/01/04 13:18:39 by ccariou          ###   ########.fr       */
+/*   Updated: 2022/01/04 13:48:27 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../get_next_line.h"
 #include <stdio.h>
 #include <fcntl.h>
 
@@ -28,7 +28,7 @@ int	main(int argc, char **argv)
 	{
 		while (get_next_line(0, &line) > 0)
 		{
-			printf("%s<- end of line %d\n", line, n);
+			printf("%s<- end of line\n", line);
 			free(line);
 		}
 	}
@@ -48,9 +48,9 @@ int	main(int argc, char **argv)
 			while(i < 5)
 			{
 				if(get_next_line(mfd[i], &line) > 0)
-				printf("%s<- end of line %d\n", line, n);
-            	i++;
-        	}
+				printf("%s<- end of line\n", line);
+				i++;
+			}
 			j++;
 		}
 		j = 0;
@@ -61,11 +61,9 @@ int	main(int argc, char **argv)
 	{
 			fd = open(argv[1], O_RDONLY);
 			while((get_next_line(fd, &line) > 0))
-				{	
-					if (c == 2)
-						c = 0;
+				{
 					ft_putchar('\n');
-					printf("%s<- end of line %d\n", line, n);
+					printf("%s<- end of line \n", line);
 					free(line);
 				}
 			close(fd);
