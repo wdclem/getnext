@@ -1,0 +1,24 @@
+cat test/4_chars.txt | ./test_gnl
+read -n 1 -s
+cat test/4_chars_no_nl.txt | ./test_gnl
+read -n 1 -s
+cat test/8_chars.txt | ./test_gnl
+read -n 1 -s
+cat test/8_chars_no_nl.txt | ./test_gnl
+read -n 1 -s
+cat test/16_chars.txt | ./test_gnl
+read -n 1 -s
+cat test/16_chars_no_nl.txt | ./test_gnl
+read -n 1 -s
+cat test/gnl7_3.txt | ./test_gnl
+read -n 1 -s
+cat test/empty | ./test_gnl
+read -n 1 -s
+cat test/ | ./test_gnl
+read -n 1 -s
+./test_gnl evalfiles/basic1
+read -n 1 -s
+./test_gnl evalfiles/basic2
+read -n 1 -s
+./test_gnl evalfiles/basic3
+read -n 1 -s
