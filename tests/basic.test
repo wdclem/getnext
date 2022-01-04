@@ -1,3 +1,0 @@
-gcc -Wall -Wextra -Werror -xc basic.c.test ../get_next_line.c -I ../libft/
-includes -I../ -L../libft -lft -o basic
-./basic
