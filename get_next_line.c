@@ -1,75 +1,78 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clabone.c                                          :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccariou <ccariou@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/21 21:21:34 by ccariou           #+#    #+#             */
-/*   Updated: 2021/12/22 12:52:27 by ccariou          ###   ########.fr       */
+/*   Created: 2022/01/04 14:36:22 by ccariou           #+#    #+#             */
+/*   Updated: 2022/01/05 14:12:42 by ccariou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	set_dup(char **dup, char *tmp)
+static int	ft_dup_result(int fd, char **line, char **result)
 {
-	ft_strdel(dup);
-	*dup = ft_strdup(tmp);
-	ft_strdel(&tmp);
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	while (result[fd][i] != '\n' && result[fd][i] != '\0')
+		i++;
+	if (result[fd][i] == '\n')
+	{
+		*line = ft_strsub(result[fd], 0, i);
+		tmp = ft_strdup(result[fd] + i + 1);
+		ft_strdel(&result[fd]);
+		result[fd] = tmp;
+		if (result[fd][0] == '\0')
+			ft_strdel(&result[fd]);
+	}
+	else
+	{
+		*line = ft_strdup(result[fd]);
+		ft_strdel(&result[fd]);
+	}
 	return (1);
 }
 
-static int	ft_read(char **dup, const int fd, char *tmp)
+static int	ft_output(char **result, char **line, int bytes, const int fd)
 {
-	char	buf[BUFF_SIZE + 1];
-	int		bytes;
-
-	bytes = read(fd, buf, BUFF_SIZE);
-	if (bytes == 0)
+	if (bytes < 0)
+	{
+		ft_strdel(result);
+		return (-1);
+	}
+	if (!bytes && !result[fd])
+	{
+		ft_strdel(result);
 		return (0);
-	buf[bytes] = '\0';
-	tmp = ft_strjoin(dup[fd], buf);
-	set_dup(&dup[fd], tmp);
-	return (1);
-}
-
-static int	ft_single_line(char **dup, char **line)
-{
-	*line = ft_strdup(*dup);
-	ft_strclr(*dup);
-	return (1);
-}
-
-static int	ft_outuput(char **dup, char **line, char *tmp, char *ptr)
-{
-	if (!(ft_strchr(*dup, '\n')))
-		return (ft_single_line(dup, line));
-	tmp = ft_strdup(ptr + 1);
-	*line = ft_strsub(*dup, 0, (ptr - *dup));
-	return (set_dup(dup, tmp));
+	}
+	return (ft_dup_result(fd, line, result));
 }
 
 int	get_next_line(const int fd, char **line)
 {
-	char		buf[BUFF_SIZE + 1];
-	static char	*dup[FD_SIZE];
+	static char	*result[FD_SIZE];
 	char		*tmp;
-	char		*ptr;
+	char		buff[BUFF_SIZE + 1];
+	int			bytes;
 
-	tmp = NULL;
-	if (fd < 0 || line == NULL || read(fd, buf, 0) < 0)
+	if (fd < 0 || line == NULL || read(fd, buff, 0) < 0)
 		return (-1);
-	if (!dup[fd])
-		dup[fd] = ft_strnew(0);
-	ptr = ft_strchr(dup[fd], '\n');
-	while (ptr == NULL)
+	bytes = read(fd, buff, BUFF_SIZE);
+	while (bytes > 0)
 	{
-		if ((ft_read(dup, fd, tmp)) == 0)
+		buff[bytes] = '\0';
+		if (!result[fd])
+			result[fd] = ft_strnew(1);
+		tmp = ft_strjoin(result[fd], buff);
+		ft_strdel(&result[fd]);
+		result[fd] = tmp;
+		if (ft_strchr(buff, '\n'))
 			break ;
-		ptr = ft_strchr(dup[fd], '\n');
+		bytes = read(fd, buff, BUFF_SIZE);
 	}
-	if (ft_strlen(dup[fd]) != 0)
-		return (ft_outuput (&dup[fd], line, tmp, ptr));
-	return (0);
+	return (ft_output(result, line, bytes, fd));
 }
